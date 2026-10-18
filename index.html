@@ -136,6 +136,9 @@ const productsData = [
 ];
 const money = n => n.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 let activeCat='Todos',cart={};
+function trackGA4Event(eventName,params={}){if(typeof window.gtag==='function')window.gtag('event',eventName,params)}
+function ga4Items(entries=cartList()){return entries.map(({p,qty})=>({item_id:p.id,item_name:p.name,item_category:p.cat,price:p.price,quantity:qty}))}
+function ga4CartParams(){const entries=cartList();return {currency:'BRL',value:cartSubtotal(),items:ga4Items(entries)}}
 function renderProducts(){
  const q=(document.getElementById('search').value||'').toLowerCase().trim();
  const list=productsData.filter(p=>(activeCat==='Todos'||p.cat===activeCat)&&(`${p.name} ${p.cat} ${p.desc}`.toLowerCase().includes(q)));
@@ -145,9 +148,9 @@ function renderProducts(){
 }
 document.querySelectorAll('.filter').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');activeCat=b.dataset.cat;renderProducts()}));
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>t.classList.remove('show'),2100)}
-function addToCart(id){cart[id]=(cart[id]||0)+1;updateCart();toast('Adicionado ao seu pedido!')}
+function addToCart(id){const p=productsData.find(x=>x.id===id);if(p)trackGA4Event('add_to_cart',{currency:'BRL',value:p.price,items:[{item_id:p.id,item_name:p.name,item_category:p.cat,price:p.price,quantity:1}]});cart[id]=(cart[id]||0)+1;updateCart();toast('Adicionado ao seu pedido!')}
 function addPromo(){addToCart('combo');document.getElementById('produtos').scrollIntoView({behavior:'smooth',block:'start'})}
-function changeQty(id,d){cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];updateCart()}
+function changeQty(id,d){const p=productsData.find(x=>x.id===id);if(p&&d>0)trackGA4Event('add_to_cart',{currency:'BRL',value:p.price*d,items:[{item_id:p.id,item_name:p.name,item_category:p.cat,price:p.price,quantity:d}]});else if(p&&d<0)trackGA4Event('remove_from_cart',{currency:'BRL',value:p.price*Math.abs(d),items:[{item_id:p.id,item_name:p.name,item_category:p.cat,price:p.price,quantity:Math.abs(d)}]});cart[id]=(cart[id]||0)+d;if(cart[id]<=0)delete cart[id];updateCart()}
 function cartList(){return Object.entries(cart).map(([id,qty])=>({p:productsData.find(p=>p.id===id),qty})).filter(x=>x.p)}
 function cartSubtotal(){return cartList().reduce((s,x)=>s+x.p.price*x.qty,0)}
 function updateCart(){
@@ -157,9 +160,9 @@ function updateCart(){
  document.getElementById('cartItems').innerHTML=!list.length?'<div class="cart-empty">Seu pedido ainda está vazio.<br><br>Escolha alguns produtos do catálogo para começar.</div>':list.map(({p,qty})=>`<div class="cart-row"><div><strong>${p.name}</strong><small>${money(p.price)} / ${p.unit==='kg'?'kg':p.unit==='kit'?'kit':'combo'}</small><div class="qty"><button onclick="changeQty('${p.id}',-1)" aria-label="Diminuir">−</button><span>${qty}</span><button onclick="changeQty('${p.id}',1)" aria-label="Aumentar">+</button></div></div><div class="row-price">${money(p.price*qty)}</div></div>`).join('');
  document.getElementById('checkoutTotal').textContent=money(cartSubtotal());
 }
-function openCart(){document.getElementById('drawer').classList.add('open');document.getElementById('backdrop').classList.add('open')}
+function openCart(){trackGA4Event('view_cart',ga4CartParams());document.getElementById('drawer').classList.add('open');document.getElementById('backdrop').classList.add('open')}
 function closeCart(){document.getElementById('drawer').classList.remove('open');document.getElementById('backdrop').classList.remove('open')}
-function openCheckout(){if(!cartList().length){toast('Adicione um produto antes de continuar.');return}closeCart();document.getElementById('checkout').classList.add('open');updateCheckoutTotal()}
+function openCheckout(){if(!cartList().length){toast('Adicione um produto antes de continuar.');return}trackGA4Event('begin_checkout',ga4CartParams());closeCart();document.getElementById('checkout').classList.add('open');updateCheckoutTotal()}
 function closeCheckout(){document.getElementById('checkout').classList.remove('open')}
 function updateCheckoutTotal(){document.getElementById('checkoutTotal').textContent=money(cartSubtotal())}
 document.getElementById('checkoutForm').addEventListener('submit',e=>{
@@ -168,10 +171,10 @@ document.getElementById('checkoutForm').addEventListener('submit',e=>{
  const lines=cartList().map(({p,qty})=>`• ${p.name} — quantidade: ${qty} — ${money(p.price*qty)} (${p.unit==='kg'?'preço por kg':p.unit==='kit'?'por kit':'por combo'})`).join('\n');
  const message=`Olá, Dornelas! Quero confirmar este pedido:\n\n${lines}\n\nSubtotal dos produtos: ${money(cartSubtotal())}\nCidade: ${city}\n\nNome: ${name}\nTelefone: ${phone}\nEndereço: ${address}${cep?'\nCEP: '+cep:''}${notes?'\nObservações: '+notes:''}\n\nPor favor, confirme disponibilidade, peso final e prazo de entrega.`;
  const url='https://wa.me/5527998504468?text='+encodeURIComponent(message);
- window.open(url,'_blank','noopener');closeCheckout();
+ trackGA4Event('whatsapp_order_click',{...ga4CartParams(),method:'WhatsApp',link_url:'https://wa.me/5527998504468'});window.open(url,'_blank','noopener');closeCheckout();
 });
-function openWhatsApp(customMessage){const msg=customMessage||'Olá! Vim pelo site da Dornelas e quero conhecer o catálogo e as ofertas.';window.open('https://wa.me/5527998504468?text='+encodeURIComponent(msg),'_blank','noopener')}
-function askAboutProduct(id){const p=productsData.find(x=>x.id===id);if(!p)return;const unit=p.unit==='kg'?'kg':p.unit==='kit'?'kit':'combo';openWhatsApp(`Olá! Vim pelo site da Dornelas e tenho interesse em ${p.name}. Vi o preço de ${money(p.price)} por ${unit}. Pode confirmar a disponibilidade e me ajudar com o pedido?`)}
+function openWhatsApp(customMessage){const msg=customMessage||'Olá! Vim pelo site da Dornelas e quero conhecer o catálogo e as ofertas.';trackGA4Event('whatsapp_click',{method:'WhatsApp',link_location:customMessage?'product_question':'general_contact'});window.open('https://wa.me/5527998504468?text='+encodeURIComponent(msg),'_blank','noopener')}
+function askAboutProduct(id){const p=productsData.find(x=>x.id===id);if(!p)return;const unit=p.unit==='kg'?'kg':p.unit==='kit'?'kit':'combo';trackGA4Event('select_item',{item_list_name:activeCat,currency:'BRL',value:p.price,items:[{item_id:p.id,item_name:p.name,item_category:p.cat,price:p.price,quantity:1}]});openWhatsApp(`Olá! Vim pelo site da Dornelas e tenho interesse em ${p.name}. Vi o preço de ${money(p.price)} por ${unit}. Pode confirmar a disponibilidade e me ajudar com o pedido?`)}
 document.getElementById('year').textContent=new Date().getFullYear();
 renderProducts();updateCart();
 </script>
