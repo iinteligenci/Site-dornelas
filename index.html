@@ -43,6 +43,49 @@ footer{margin-top:42px;background:#0b211b;color:#e8eee7;padding:30px 0 90px}.foo
 
 @media(max-width:850px){.navlinks{display:none}.quick-contact-inner{align-items:flex-start;flex-direction:column}.quick-whats{width:100%}.hero-grid{grid-template-columns:1fr;gap:24px}.hero{padding-top:28px}.hero-art{min-height:335px}.benefit-grid{grid-template-columns:repeat(2,1fr)}.products{grid-template-columns:repeat(2,1fr)}.product-visual{height:125px}.story{grid-template-columns:1fr}.delivery{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.section-head p{max-width:100%}}
 @media(max-width:500px){.wrap{width:calc(100% - 24px)}.nav-whats{display:none}.nav{height:66px}.brand{font-size:18px}.brandmark{width:37px;height:37px}.navactions .btn-outline{display:none}.navactions .btn{padding:10px 12px;font-size:12px}.topline{font-size:10px}.hero h1{font-size:43px;letter-spacing:-2px}.hero p{font-size:14px}.hero-art{min-height:315px;padding:20px}.board{height:170px}.m1{left:28px;top:34px}.m2{right:24px;top:28px}.m3{left:61px;bottom:18px}.stamp{width:72px;height:72px;font-size:9px;right:15px;bottom:16px}.benefit{padding:12px;gap:8px}.benefit-icon{width:32px;height:32px;flex-basis:32px;font-size:15px}.benefit strong{font-size:11px}.benefit small{font-size:9px}.section{padding:29px 0}.promo{padding:18px;align-items:flex-start;flex-direction:column}.promo-price{width:100%;justify-content:space-between}.toolbar{align-items:stretch;flex-direction:column}.searchbox{max-width:none}.filters{overflow:auto;flex-wrap:nowrap;padding-bottom:3px}.filter{white-space:nowrap}.products{gap:10px}.product{border-radius:14px}.product-visual{height:105px}.food-icon{font-size:49px}.product-body{padding:11px}.product h3{font-size:13px}.product-desc{font-size:10px;min-height:30px}.price{font-size:17px}.add{width:33px;height:33px}.story{padding:23px}.story h2{font-size:29px}.steps{grid-template-columns:1fr}.footer-grid{flex-direction:column}.floating-actions{left:10px;right:10px;bottom:10px;display:grid;grid-template-columns:.8fr 1.4fr}.floating-actions .btn{width:100%;padding:13px 8px;font-size:12px}.formgrid{grid-template-columns:1fr}.field.full{grid-column:auto}}
+
+/* Dornelas storefront refinement — preserves catalog, prices, imagery and checkout logic */
+:root{--forest:#142f26;--forest2:#244b3b;--cream:#faf6ee;--paper:#fffefa;--orange:#d98232;--ink:#222720;--muted:#6d7168;--line:#e7dfd2;--shadow:0 16px 42px rgba(20,47,38,.10)}
+html{scroll-padding-top:88px}body{letter-spacing:-.012em;-webkit-font-smoothing:antialiased}
+header{position:sticky;top:0;z-index:50;background:rgba(250,246,238,.94);backdrop-filter:blur(16px);border-bottom:1px solid rgba(20,47,38,.09)}
+.nav{min-height:76px}.brand{gap:12px;letter-spacing:.08em}.brandmark{box-shadow:0 5px 16px rgba(20,47,38,.18)}
+.navlinks a{transition:color .2s ease}.navlinks a:hover{color:var(--orange)}
+.btn{min-height:44px;border-radius:999px;font-weight:700;letter-spacing:0;transition:transform .18s ease,box-shadow .18s ease,background .18s ease}
+.btn:hover{transform:translateY(-2px)}.btn-orange{box-shadow:0 8px 20px rgba(217,130,50,.22)}.btn-dark:hover{box-shadow:0 8px 20px rgba(20,47,38,.18)}
+.hero{padding-top:clamp(48px,7vw,88px);padding-bottom:clamp(54px,7vw,90px);overflow:hidden}
+.hero-grid{align-items:center;gap:clamp(28px,5vw,72px)}.hero h1{letter-spacing:-.065em;line-height:.99;font-size:clamp(3.2rem,6.4vw,5.6rem);max-width:700px}
+.hero h1 em{color:var(--orange);font-style:normal}.hero p{font-size:clamp(1rem,1.5vw,1.12rem);line-height:1.8;max-width:560px}
+.eyebrow{border:1px solid rgba(20,47,38,.1);background:rgba(255,254,250,.7);border-radius:999px;padding:9px 13px}
+.hero-art{filter:drop-shadow(0 22px 25px rgba(38,35,25,.08))}.trustline{gap:12px 18px}.trustline span{font-size:12px}
+.benefits{padding-top:0;padding-bottom:30px}.benefit-grid{gap:14px}.benefit{border:1px solid rgba(20,47,38,.08);border-radius:18px;background:rgba(255,254,250,.72);padding:18px}
+.section{padding-top:clamp(56px,7vw,88px);padding-bottom:clamp(56px,7vw,88px)}
+.section-head{align-items:end;margin-bottom:28px}.section-head h2,.quick-contact h2,.story h2{letter-spacing:-.045em;line-height:1.08}
+.section-head h2{font-size:clamp(2rem,4vw,3.2rem)}.promo{border-radius:26px;box-shadow:0 18px 48px rgba(20,47,38,.12);overflow:hidden}
+.promo-copy,.promo-price{padding:clamp(24px,4vw,42px)}.price-big{letter-spacing:-.05em}
+.quick-contact-inner{border-radius:24px;padding:clamp(24px,4vw,42px);background:linear-gradient(125deg,#17382c,#244d3b);box-shadow:var(--shadow)}
+.quick-contact h2{font-size:clamp(1.8rem,3.5vw,2.7rem)}.toolbar{gap:16px;margin-bottom:24px}
+.searchbox{border-radius:999px;background:var(--paper);border:1px solid var(--line);box-shadow:0 4px 14px rgba(20,47,38,.035);min-height:50px}
+.searchbox:focus-within{border-color:var(--orange);box-shadow:0 0 0 3px rgba(217,130,50,.13)}
+.filters{gap:8px}.filter{border-radius:999px;transition:all .18s ease}.filter:hover{border-color:var(--forest);transform:translateY(-1px)}
+.products{gap:20px}.product{border:1px solid rgba(20,47,38,.08);border-radius:20px;background:var(--paper);overflow:hidden;box-shadow:0 5px 20px rgba(20,47,38,.035);transition:transform .22s ease,box-shadow .22s ease,border-color .22s ease}
+.product:hover{transform:translateY(-5px);box-shadow:0 18px 34px rgba(20,47,38,.11);border-color:rgba(217,130,50,.35)}
+.product-visual{overflow:hidden}.food-photo{transition:transform .45s ease}.product:hover .food-photo{transform:scale(1.035)}
+.product-body{padding:19px}.product-cat{letter-spacing:.1em}.product-desc{line-height:1.65}
+.product-bottom{align-items:center;gap:12px}.price{font-variant-numeric:tabular-nums;letter-spacing:-.035em}
+.add{border-radius:999px;min-width:44px;min-height:44px;box-shadow:0 5px 14px rgba(20,47,38,.12);transition:transform .18s ease,box-shadow .18s ease}
+.add:hover{transform:scale(1.05);box-shadow:0 8px 18px rgba(20,47,38,.18)}
+.story{gap:clamp(28px,6vw,80px);align-items:center}.story-card{border-radius:24px;box-shadow:var(--shadow)}
+footer{padding-top:46px}.footer-grid{gap:32px}.footer-links a{transition:color .18s ease}.footer-links a:hover{color:var(--orange)}
+.floating-actions{z-index:40}.floating-cart,.floating-wa{box-shadow:0 8px 24px rgba(20,47,38,.2);border-radius:999px}
+.cart-drawer,.modal-card{border-radius:24px 24px 0 0}.toast{border-radius:999px;box-shadow:0 10px 30px rgba(20,47,38,.18)}
+:focus-visible{outline:3px solid rgba(217,130,50,.7);outline-offset:3px}
+@media(max-width:760px){.nav{min-height:66px}.navlinks{gap:14px}.hero{padding-top:40px}.hero-grid{gap:30px}
+.hero h1{font-size:clamp(3rem,13vw,4.6rem)}.hero-ctas{gap:10px}.hero-ctas .btn{width:100%;justify-content:center}
+.trustline{display:flex;flex-wrap:wrap}.benefit-grid{grid-template-columns:1fr 1fr}.benefit{padding:14px}
+.section-head{align-items:start;gap:12px}.products{gap:12px}.product{border-radius:16px}.product-body{padding:13px}
+.product-bottom{align-items:flex-end}.quick-contact-inner{gap:18px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+
 </style>
 </head>
 <body>
@@ -94,7 +137,7 @@ footer{margin-top:42px;background:#0b211b;color:#e8eee7;padding:30px 0 90px}.foo
 </div></section>
 
 </main>
-<footer><div class="wrap"><div class="footer-grid"><div><div class="footer-brand">DORNELAS<small>DEFUMADOS ARTESANAIS</small></div><div class="footer-copy">Sabor artesanal, variedade e atendimento próximo. Faça seu pedido pelo catálogo ou converse com a nossa equipe.</div></div><div class="footer-links"><a href="#produtos">Catálogo</a><a href="#historia">Nossa história</a><a href="#" onclick="openWhatsApp();return false">Falar com vendedor</a></div></div><div class="copyright">© <span id="year"></span> Dornelas. Protótipo visual offline — preços e textos devem ser revisados antes da publicação.</div></div></footer>
+<footer><div class="wrap"><div class="footer-grid"><div><div class="footer-brand">DORNELAS<small>DEFUMADOS ARTESANAIS</small></div><div class="footer-copy">Sabor artesanal, variedade e atendimento próximo. Faça seu pedido pelo catálogo ou converse com a nossa equipe.</div></div><div class="footer-links"><a href="#produtos">Catálogo</a><a href="#historia">Nossa história</a><a href="#" onclick="openWhatsApp();return false">Falar com vendedor</a></div></div><div class="copyright">© <span id="year"></span> Dornelas. Defumados artesanais feitos com cuidado. Pedidos e disponibilidade confirmados pelo WhatsApp.</div></div></footer>
 <div class="floating-actions"><button class="btn floating-cart" onclick="openCart()">🛒 Pedido <span class="cartcount" id="floatCount">0</span></button><button class="btn floating-wa" onclick="openWhatsApp()">Falar no WhatsApp ↗</button></div>
 <div class="toast" id="toast"></div>
 <div class="drawer-backdrop" id="backdrop" onclick="closeCart()"></div>
